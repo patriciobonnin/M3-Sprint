@@ -1,25 +1,37 @@
 /* Evaluación Final Módulo 3
-Andrés Tapia, Juan Pablo Vásquez, Sebastián Araya, Patricio Bonnin */
+* Integrantes:
+* Andrés Tapia.
+* Juan Pablo Vásquez.
+* Sebastián Araya. 
+* Patricio Bonnin */
 
+-- Creación Base de datos
 CREATE DATABASE telovendosprint;
-/*CREATE USER 'telovendosprint'@'localhost' IDENTIFIED BY 'telovendosprint';
-GRANT ALL PRIVILEGES ON telovendosprint.* TO 'telovendosprint'@'localhost';
-FLUSH PRIVILEGES;*/
 
+-- Creación usuario
+CREATE USER 'telovendosprint'@'localhost' IDENTIFIED BY 'telovendosprint';
+
+-- Creación privilegio usuario
+GRANT ALL PRIVILEGES ON telovendosprint.* TO 'telovendosprint'@'localhost';
+FLUSH PRIVILEGES;
+-- Seleccionar BD
 use telovendosprint;
 
+-- Creación tabla usuario
 CREATE TABLE stock (
 	id_stock integer primary key auto_increment,
 	id_producto integer,
     cantidad integer
     );
 
+-- Creación tabla categoria
 CREATE TABLE categoria (
 	id_categoria integer primary key auto_increment,
     nombre_categoria varchar(50),
 	descripcion_categoria varchar(50)
     );
-    
+
+-- Creación tabla producto
 CREATE TABLE clientes (
 	id_clientes integer primary key auto_increment,
     nombre varchar(50),
@@ -27,6 +39,7 @@ CREATE TABLE clientes (
     direccion varchar(50)
     );
     
+-- Creación tabla proveedores
 CREATE TABLE proveedores (
 	id_proveedor integer primary key auto_increment,
     nombre_representante_legal varchar(50),
@@ -36,7 +49,8 @@ CREATE TABLE proveedores (
     nombre_recepcion varchar(50),
     correo_electronico varchar(50)
     );
-    
+
+-- Creación tabla producto
 CREATE TABLE productos (
 	id_productos integer primary key auto_increment,
     nombre_producto varchar(50),
@@ -49,7 +63,8 @@ CREATE TABLE productos (
 	foreign key (id_proveedor) references proveedores (id_proveedor),
     foreign key (id_stock) references stock (id_stock)
     );
-    
+
+-- Creación tabla compras
 CREATE TABLE compras (
 	id_compra integer primary key auto_increment,
 	id_producto integer,
@@ -61,8 +76,8 @@ CREATE TABLE compras (
     );
     
 ALTER TABLE compras MODIFY cantidad_compra int;
-DESCRIBE compras;
 
+-- Creación tabla devoluciones
 CREATE TABLE devoluciones (
 	id_devolucion integer primary key auto_increment,
 	id_compra integer,
@@ -70,6 +85,7 @@ CREATE TABLE devoluciones (
     foreign key (id_compra) references compras (id_compra)
     );
 
+-- Insert Datos tabla Stock
 INSERT INTO stock (id_producto, cantidad)
 VALUES
 (1, 40),
@@ -83,6 +99,7 @@ VALUES
 (9, 350),
 (10, 50);
 
+-- Datos tabla Categoría
 INSERT INTO categoria (nombre_categoria, descripcion_categoria)
 VALUES
 ('Alimentos perecederos', 'comida'),
@@ -128,12 +145,11 @@ VALUES
 ('Limones', 9990, 4, 1, 'Amarillo', 9),
 ('Tortas', 4990, 5, 2, 'Plateado', 10);
 
+-- Datos tabla compras
 INSERT INTO compras (id_producto, id_clientes ,fecha_hora_de_compra, cantidad_compra)
 VALUES 
 (1, 1, '2023-04-03', 1);
 
-DESCRIBE compras;
-    
 SELECT * FROM categoria;
 SELECT * FROM stock;
 SELECT * FROM clientes;
@@ -186,20 +202,9 @@ ORDER BY total_stock ASC;
 'Pedro Ramírez', '40'
 */
 
-DESCRIBE clientes;
-DESCRIBE productos;
-DESCRIBE stock;
-SELECT * FROM stock;
-SELECT * FROM productos WHERE id_productos = 2;
-SELECT * FROM proveedores WHERE id_proveedor = 3;
-DESCRIBE proveedores;
-
 /*Por último:
 Cambien la categoría de productos más popular por ‘Electrónica y computación’.
 */    
-SELECT * FROM productos;
-SELECT * FROM categoria;
-
 UPDATE categoria
 SET nombre_categoria = 'Electrónica y computación'
 WHERE id_categoria = (
